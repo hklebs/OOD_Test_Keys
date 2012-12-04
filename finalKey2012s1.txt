@@ -1,0 +1,284 @@
+Distribution of grades on the final exam, with sample answers
+for the programming questions.
+
+****************************************************************
+
+Distribution of final exam grades, summer 1 2012
+
+; N = 11
+; hi = 93
+; median = 81
+; lo = 51
+; mean = 77.8
+;               after adding 7 pts
+;  90-100   2           4
+;  80-89    5           4
+;  70-79    1           1
+;  60-69    2           1
+;  50-59    1           1
+
+****************************************************************
+
+Sample answers for the programming questions (untested).
+
+================
+
+43. [8 points]  Write Java code for a static method that, given
+    an array of Integer values, returns an Iterator<Integer>
+    that generates each element of the array exactly once,
+    starting with element 0 of the array and proceeding
+    in order through the last element of the array.
+
+(Hint 1:  You may assume everything in the java.util package
+has been imported.)
+
+(Hint 2:  You may define help methods or classes.  To improve
+your chances for partial credit, please write a short purpose
+statement for each help method or help class you define.)
+
+
+// Sample solution 1
+//
+// This solution makes good use of the reusable software in java.util.
+
+    // Returns an Iterator that generates the elements
+    // of the given array in order from a[0] to a[a.length-1].
+
+    static Iterator<Integer> arrayIterator (Integer[] a) {
+        ArrayList<Integer> a2 = new ArrayList<Integer>();
+        Collections.addAll (a2, a);
+        return a2.iterator();
+    }
+
+// Sample solution 2
+//
+// Same as solution 1, except it doesn't use Collections.addAll(...).
+
+    // Returns an Iterator that generates the elements
+    // of the given array in order from a[0] to a[a.length-1].
+
+    static Iterator<Integer> arrayIterator (Integer[] a) {
+        ArrayList<Integer> a2 = new ArrayList<Integer>();
+        for (int i = 0; i < a.length; i = i + 1)
+            a2.add (a[i]);
+        return a2.iterator();
+    }
+
+// Sample solution 3
+//
+// Doesn't rely on anything in java.util apart from the Iterator interface
+// and a couple of Exception classes.
+
+    // Returns an Iterator that generates the elements
+    // of the given array in order from a[0] to a[a.length-1].
+
+    static Iterator<Integer> arrayIterator (Integer[] a) {
+        return new MyArrayIterator (a);
+    }
+
+    // Implements iterators for arrays of Integer.
+
+    static class MyArrayIterator implements Iterator<Integer> {
+
+        // The array whose elements this Iterator will generate.
+
+        private Integer[] a;
+
+        // The index of the next element to be generated.
+        // 0 <= i <= a.length
+        // If i == a.length, then there are no more elements to generate.
+
+        private int i;
+
+        MyArrayIterator (Integer[] a) {
+            this.a = a;
+            this.i = 0;
+        }
+
+        public boolean hasNext () { return i < a.length; }
+
+        public Integer next () {
+            if (hasNext()) {
+                Integer result = a[i];
+                i = i + 1;
+                return result;
+            }
+            throw new NoSuchElementException();
+        }
+
+        public void remove () {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+================
+
+44.  [8 points]  Write a static method that takes as its one
+argument an ArrayList<Double> and prints the elements of that
+ArrayList to System.out, one number per line, starting with
+the largest element and proceeding downwards to the smallest.
+
+(Hint:  See the hints for question 43.)
+
+// Sample solution 1.
+// Uses Collections.sort, Collections.reverse, and a foreach statement.
+
+    // Prints the elements of the given ArrayList, one per
+    // line, from largest to smallest.
+
+    static void printArrayList (ArrayList<Double> nums) {
+
+        // Cloning to avoid any side effects to nums.
+        // (That's good programming practice, but it wasn't
+        // required by the specification of this method.)
+
+        ArrayList<Double> nums2 = nums.clone();
+
+        Collections.sort (nums2);
+        Collections.reverse (nums2);
+
+        for (Double d : nums2)
+            System.out.println (d);
+    }
+
+
+// Sample solution 2.
+// This extremely clumsy and rather inefficient solution
+// copies the numbers into an array, and then repeatedly
+//     finds the largest non-null element of the array
+//     prints it
+//     and replaces that array element by null
+// until all of the numbers have been printed.
+
+    // Prints the elements of the given ArrayList, one per
+    // line, from largest to smallest.
+
+    static void printArrayList (ArrayList<Double> nums) {
+
+        Double[] nums2 = new Double [ nums.size() ];
+
+        for (int i = 0; i < nums.size(); i = i + 1)
+            nums2 [i] = nums.get (i);
+
+        // Loop until all array elements are null.
+
+        while (true) {
+
+            // Find the first non-null element of the array.
+
+            int j = 0;
+            while ((j < nums2.length) && (nums2[j] != null))
+                j = j + 1;
+
+            // If we didn't find any non-null elements, we're done.
+
+            if (j == nums2.length)
+                return;
+
+            Double d = nums2 [j];
+            int k = j + 1;
+
+            // Loop invariant:
+            //     j < k <= nums2.length
+            //     d is nums2[j]
+            //     d is the largest non-null element of nums2
+            //         whose index is less than k
+
+            while (k < nums2.length) {
+                if ((nums2[k] != null) &&
+                    ((d.doubleValue() < nums2[k].doubleValue()))) {
+                    j = k;
+                    d = nums2[k];
+                 }
+                k = k + 1;
+            }
+
+            System.out.println (d);
+            nums2 [j] = null;    // so we won't print it again
+        }
+    }
+
+
+// Sample solution 3.
+//
+// Mel would have preferred this solution, but he'd have written
+// it in machine language instead of Java.  Instead of using
+// java.util.List, he'd have written everything from scratch.
+// It's hard to write everything from scratch, especially when
+// you're writing hexadecimal machine language, so Mel would
+// probably have used a less efficient algorithm, and he might
+// well have made a mistake.
+//
+// (Of course, it's quite possible that I've made a mistake as well.
+// Apart from the quicksort routine, which is taken from our Examples
+// directory, this code is untested.)
+
+    // Prints the elements of the given ArrayList, one per
+    // line, from largest to smallest.
+
+    static void printArrayList (ArrayList<Double> nums) {
+
+        // Cloning to avoid any side effects to nums.
+        // (That's good programming practice, but it wasn't
+        // required by the specification of this method.)
+
+        ArrayList<Double> nums2 = nums.clone();
+
+        nums2 = quicksort (nums2, new MyDoubleComparator());
+
+        for (int i = 0; i < nums2.size(); i = i + 1)
+            System.out.println (nums2.get (i));
+
+    }
+
+    // Implements the reverse of the usual ordering on Double.
+
+    static class MyDoubleComparator implements Comparator<Integer> {
+
+	public int compare (Double d1, Double d2) {
+            return - (d1.compareTo (d2));
+	}
+    }
+
+    // Given a list of things ordered by lessThan
+    // (whose reflexive extension is a total order),
+    // returns a sorted list of the things.
+    //
+    // Additional preconditions:
+    //     neither argument is null
+    //     no concurrent thread or process is modifying things
+    //     the comparator has no side effects
+
+    static <E>
+    List<E> quicksort (List<E> things, Comparator<E> lessThan) {
+	if (things.size() < 2)
+	    return things;
+	else {
+	    E pivot = things.get(0);
+	    List<E> other = things.subList(1,things.size());
+	    List<E> below = new ArrayList<E>();
+	    List<E> above = new ArrayList<E>();
+	    Iterator<E> it = other.iterator();
+
+	    // Loop invariant:
+	    // for every element x of other:
+	    //     x has not yet been generated by it, or
+	    //     x has been generated, lies below pivot,
+	    //         and has been added to below, or
+	    //     x has been generated, does not lie below pivot,
+	    //         and has been added to above
+
+	    while (it.hasNext()) {
+		E x = it.next();
+		if (lessThan.compare(x, pivot) < 0)
+		    below.add(x);
+		else
+		    above.add(x);
+	    }
+
+	    below = quicksort(below, lessThan);
+	    below.add(pivot);
+	    below.addAll(quicksort(above, lessThan));
+	    return below;
+	}
+    }

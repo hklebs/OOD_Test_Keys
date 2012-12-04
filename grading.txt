@@ -1,0 +1,34 @@
+How Final Grades Were Computed in CS 3500 (spring 2012)
+
+Three curves were applied before the overall numerical average
+was computed.
+
+Curve #1:  The percentage scores for assignments 2 and 5 were
+compared, and the lower percentage score was dropped.  That
+had the effect of reducing the number of scores for homework
+assignments from 10 to 9.
+
+Curve #2:  The most detrimental grade for the remaining
+assignments was dropped.  That had the effect of reducing
+the number of scores for homework assignments from 9 to 8.
+
+The homework average was then computed by weighting those
+8 scores equally.
+
+Curve #3:  The final exam was a little harder than usual,
+so the final exam score was curved by adding 7 points.
+
+The overall average was then computed as a weighted average
+of the homework average, midterm, and curved final exam:
+
+    50%  homework average
+    20%  midterm
+    30%  final exam
+
+The letter grades were then computed directly from the
+overall average, with some slight lowering of some thresholds
+at the whim of the instructor (to give slightly higher
+letter grades to some students than would have been given
+by a purely mechanical application of the algorithm above).
+
+William D Clinger

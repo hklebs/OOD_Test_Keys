@@ -1,0 +1,246 @@
+Distribution of grades on the final exam, with sample answers
+for the programming questions.
+
+****************************************************************
+
+Distribution of final exam grades, spring 2012
+
+; N = 34
+; hi = 94
+; median = 76.5
+; lo = 55
+; mean = 75.3
+;               after adding 7 pts
+;  90-100   2          11
+;  80-89   13          10
+;  70-79    9           7
+;  60-69    8           6
+;  50-59    2           0
+
+****************************************************************
+
+Sample answers for the programming questions (untested).
+
+================
+
+41. [8 points]  Write Java code that implements a mutable
+    ADT named Declan.  Declan is a mutable List-like ADT
+    whose public operations include those shown below,
+    using the client syntax shown:
+
+    Declan.empty()
+        returns a newly allocated mutable Declan with no elements.
+
+    void add (double x)
+        appends x to the end of this Declan.
+
+    double get (int index)
+        Returns the element at the specified position in this Declan
+        (using 0-origin indexing, where the first element added is
+        at index 0 and the most recently added element at index
+        size()-1).
+
+    int size ()
+        Returns the number of elements in this Declan.
+
+    java.util.Iterator<Double> iterator()
+        returns an Iterator that generates Double values that wrap
+        the double values that have been added to this Declan,
+        beginning with the first double that was added.
+
+(Hint 1:  You may import anything in the java.util package.)
+
+(Hint 2:  The add method takes a double as its argument, not a Double.
+Similarly, the get method returns a double, not a Double.)
+
+
+// 8 (out of 34) students got full credit for this question.
+// Another 8 lost only 1 point.
+//
+// Common mistakes:
+//     thinking Declan is immutable rather than mutable
+//     ignoring hint 2
+//     trying to implement Declan as a subclass of ArrayList
+//         (which can't possibly work because the return type
+//         of the get(int) method specified above is incompatible
+//         with the return type of the get(int) method inherited
+//         from ArrayList, and Java doesn't allow overloading on
+//         the return type only)
+
+// Sample solution (untested)
+//
+// A mutable List-like collection of double values.
+
+import java.util.*;
+
+public class Declan implements Iterable<Double> {
+
+    // The "implements Iterable<Double>" part is optional,
+    // but "implements Iterable<double>" would be incorrect
+    // because Java doesn't allow parametric polymorphism
+    // to range over primitive types.
+
+    private ArrayList<Double> state;    // holds the elements of this Declan
+
+    // Many students wrote "ArrayList<double>", which is incorrect.
+
+    private Declan () {
+        this.state = new ArrayList<Double>();
+    }
+
+    // The public methods as specified in the problem.
+
+    public static Declan empty () { return new Declan(); }
+
+    public void add (double x) { state.add (new Double(x)); }
+
+    public double get (int index) {
+        return state.get(index).doubleValue();
+    }
+
+    public int size () { return state.size(); }
+
+    public Iterator<Double> iterator () { return state.iterator(); }
+}
+
+================
+
+Questions 42 and 43 are based upon the immutable abstract data type
+Tree that's specified on a separate sheet of paper.
+
+
+
+42.  [6 points]  Complete the following method so its purpose
+statement is true.  (You may wish to define one or more help
+methods.  If so, each help method must be preceded by a clear and
+correct statement of its purpose.)
+
+    // Returns true if and only if t is a binary search tree.
+
+    public static boolean isBST (Tree t) {
+
+        // Only 4 students got this question completely right.
+        //
+        // Many students forgot to include the following case,
+        // or returned false instead of true.
+
+        if (t.isEmpty())
+            return true;
+
+        // Most students failed to implement the part of the
+        // specification that says "every label in t.left()
+        // is strictly less than t.label()", and failed to
+        // implement the analogous part for t.right().
+
+        else return allLess (t.left(), t.label())
+                 && allGreater (t.right(), t.label())
+                 && isBST (t.left())
+                 && isBST (t.right());
+    }
+
+    // Returns true if and only if every label in t is strictly
+    // less than k.
+    //
+    // Common mistakes:
+    //     comparing only the root label to k
+    //     comparing only the labels at the root and in the left subtree
+    //     allowing t to have labels equal to k
+
+    static boolean allLess (Tree t, int k) {
+        if (t.isEmpty())
+            return true;
+        else return t.label() < k
+                 && allLess (t.left(), k)
+                 && allLess (t.right(), k);
+    }
+
+    // Returns true if and only if every label in t is strictly
+    // greater than k.
+
+    static boolean allGreater (Tree t, int k) {
+        if (t.isEmpty())
+            return true;
+        else return t.label() > k
+                 && allGreater (t.left(), k)
+                 && allGreater (t.right(), k);
+    }
+
+================
+
+43.  [8 points]  Write Java code that implements the immutable
+abstract data type Tree as specified on the sheet of paper that
+accompanies this final exam.
+
+(Hint 1:  The empty and node methods are static.  The other four
+methods are dynamic.)
+
+(Hint 2:  The Tree ADT is immutable.)
+
+
+// 22 students got full credit for this question, and
+// another 10 students lost only 1 point.
+
+public abstract class Tree {
+
+    public static Tree empty () {
+        return new Empty();
+    }
+
+    public static Tree node (int k, Tree t1, Tree t2) {
+        return new Node (k, t1, t2);
+    }
+
+    public abstract boolean isEmpty ();
+    public abstract int label ();
+    public abstract Tree left ();
+    public abstract Tree right ();
+
+    private static class Empty extends Tree {
+
+        Empty () { }
+
+        public boolean isEmpty () { return true; }
+
+        public int label () {
+            throw exception("label");
+        }
+
+        public int left () {
+            throw exception("left");
+        }
+
+        public int right () {
+            throw exception("right");
+        }
+
+        private RuntimeException exception (String operation) {
+            String message
+                = "can't take the " + operation + " of an empty Tree";
+            return new RuntimeException (message);
+        }
+    }
+
+    private static class Node extends Tree {
+
+        private int k;            // this Node's label
+        private Tree t1;          // this Node's left subtree
+        private Tree t2;          // this Node's right subtree
+
+        Node (int k, Tree t1, Tree t2) {
+            this.k = k;
+            this.t1 = t1;
+            this.t2 = t2;
+        }
+
+        public boolean isEmpty () { return false; }
+
+        public int label () { return k; }
+
+        public int left () { return t1; }
+
+        public int right () { return t2; }
+    }
+}
+
+
+

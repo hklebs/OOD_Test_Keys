@@ -1,0 +1,394 @@
+Answer key for a CS 3500 final exam.
+Each question shows the correct answer, annotated with the
+percentage of students who gave that correct answer.  There
+were 35 students, so each student who got the wrong answer
+reduces the percentage by about 3.
+    
+    Final Exam.
+    CS 3500.  Object-oriented design.
+    Fall 2009
+
+    Each multiple choice question is worth 2 points.  The
+    next-to-last question is worth 15 points, and the last
+    question is worth 9 points.
+    
+     1. In Java, a class that declares abstract methods
+    
+[94%]   ____  A.  must be declared abstract
+    
+        ____  B.  must be declared final
+    
+        ____  C.  must be declared public
+
+        ____  D.  must override the hashCode() method
+    
+        ____  E.  must not contain any references to this
+
+     2. In Java, a static member x of class A is visible within
+    
+        ____  A.  the static methods of A, but not within the dynamic methods
+    
+        ____  B.  all the methods of A, but not within the constructors
+    
+        ____  C.  the dynamic methods of A, but not within the static methods
+    
+[89%]   ____  D.  all the methods of A
+    
+        ____  E.  the constructors of A, but not within the methods
+
+     3. In Java, a private static member x of class C in package p is visible
+[89%]   ____  B.  only within the class C
+    
+     4. In Java, an abstract class
+[89%]   ____  D.  may have subclasses.
+    
+     5. In Java, which of the following is a reference type?
+[86%]   ____  C.  Integer
+
+     6. In Java, the specific method called by x.f(y,z) is determined by
+[11%]   ____  C.  the value of x and the types of y and z.
+    
+     7. In Java, which of the following is a legal expression?
+[51%]   ____  B.  new java.util.HashMap<Integer,String>()
+    
+     8. In Java, which of the following is a legal statement?
+[49%]   ____  D.  ;
+    
+     9. In Java,
+[46%]   ____  C.  StringBuffer is thread-safe, but StringBuilder is not
+
+    10. In Java, if B and C are classes that extend a class A, then
+[46%]   ____  D.  A[], B[], and C[] are subtypes of A[]
+
+    11. In Java, a ConcurrentModificationException is thrown most often
+[91%]   ____  E.  by classes that implement java.util.Iterator
+
+    12. In Java, parameterized types increase
+[97%]   ____  B.  reusability
+
+    13. In Java, equality of class types is best described as
+[43%]   ____  D.  nominal
+
+    14. In Java, product types most often correspond to
+[66%]   ____  A.  classes
+
+    15. In Java, sum types are often represented by
+[89%]   ____  B.  abstract classes with concrete subclasses
+
+    16. In Java, foreach loops can iterate over types that implement
+[71%]   ____  B.  java.lang.Iterable<T>
+
+    17. In Java, the largest positive int value is
+[49%]   ____  A.  2147483647 (2^31-1)
+
+    18. In Java, a char is 16 bits because the original designers of Java
+[54%]   ____  D.  thought a Unicode scalar value would fit in 16 bits.
+
+    19. The main difference between java.util.Vector and java.util.ArrayList is
+[60%]   ____  A.  ArrayList operations are not synchronized.
+
+    20. The java.util.HashMap<K,V> class relies upon consistency between
+[83%]   ____  B.  equals(Object) and hashCode() methods
+
+    21. If two classes both implement java.util.Iterator, then
+[94%]   ____  D.  both classes will have some methods of the same name
+
+    22. The java.util.List<T> interface is an example of
+[94%]   ____  C.  a parameterized type
+    
+    23. The CRC model of OO design is often implemented using
+[94%]   ____  A.  three-by-five inch note cards.
+
+    24. By themselves, algebraic specifications are unable to specify
+[71%]   ____  E.  mutable data types.
+
+    25. Abstract data types help to isolate clients from
+[80%]   ____  D.  object representations
+
+    26. The Visitor and Iterator patterns both encapsulate
+[97%]   ____  C.  reusable code for traversing a data structure.
+    
+    27. The Singleton pattern is often implemented by
+[80%]   ____  A.  refactoring
+    
+    28. Covariance of Java's array type constructor
+[77%]   ____  D.  increases reusability but reduces efficiency.
+    
+    29. Integer.valueOf(int) and Integer.valueOf(String) exemplify
+[60%]   ____  B.  overloading
+
+    30. Reusable software is
+[89%]   ____  A.  used routinely
+    
+    31. Reuse via the Composition pattern is
+[37%]   ____  B.  less brittle than reuse via inheritance.
+
+    32. The most important program optimizations are those that
+[66%]   ____  B.  improve asymptotic efficiency.
+
+    33. According to Ed Nather, Mel didn't approve of
+[51%]   ____  B.  assemblers
+
+    34. The absence of proper tail recursion from Java implies that
+[69%]   ____  E.  delegation must often be rewritten as a loop.
+
+    35. Automatic reclamation of a program's unreachable storage is
+[97%]   ____  C.  known as garbage collection.
+
+    36. Object-oriented software is often hard to test because
+[74%]   ____  C.  it's hard to anticipate what new subclasses may do.
+
+    37. Integration testing
+[86%]   ____  C.  tests interactions between components.
+
+    38. A set of unit tests achieves statement coverage if and only if
+[86%]   ____  E.  every statement of the unit is executed by some test.
+
+    
+39. [15 points]  Write Java code that implements the immutable
+abstract data type T as specified below.
+(If all four operations run in constant time and space, then
+you may receive up to 4 points of extra credit.)
+
+Signature:
+
+    up:    T x T  -->  T
+    dn:    int    -->  T
+    east:  T      -->  int
+    west:  T      -->  int
+
+Client syntax:  As illustrated by the following example.
+
+    public static void main (String[] args) {
+        T d1 = T.dn(3);
+        T d2 = T.dn(4);
+        T d3 = T.up(d1, d2);
+        T d4 = T.up(d3, d2);
+        System.out.println(d4.west());   // prints -5
+        System.out.println(d4.east());   // prints 13
+    }
+
+Algebraic specification:
+
+    T.up(d1, d2).east()  =  1 + d1.east() + d2.east()
+    T.dn(n).east()  =  n
+
+    T.up(d1, d2).west()  =  d1.west() - d2.west()
+    T.dn(n).west()  =  n
+
+
+[90%]
+
+// 54% of the answers received the full 15 points credit or more.
+// 14% of the answers received 19 points of credit.
+// Most students had the right idea, but 11% of the answers were
+// almost totally wrong.
+//
+// Common mistakes:
+//
+// Failing to realize that T.dn and T.up are static methods,
+// and that west() and east() are dynamic methods.
+//
+// Giving the class a name other than T.
+
+////////////////////////////////////////////////////////////////
+//
+// Solution 1: following the recipe.
+//
+////////////////////////////////////////////////////////////////
+
+public abstract class T {
+
+    public static T up (T x, T y) { return new Up(x, y); }
+    public static T dn (int n) { return new Dn(n); }
+
+    public abstract int east();
+    public abstract int west();
+
+    private static class Up extends T {
+        private T x;
+        private T y;
+        Up (T x, T y) { this.x = x; this.y = y; }
+        public int east () { return 1 + x.east() + y.east(); }
+        public int west () { return x.west() - y.west(); }
+    }
+
+    private static class Dn extends T {
+        private int n;
+        Dn (int n) { this.n = n; }
+        public int east () { return n; }
+        public int west () { return n; }
+    }
+}
+
+////////////////////////////////////////////////////////////////
+//
+// Solution 2: precomputing the results of the east() and west()
+// operations, so all four operations run in constant time.
+//
+////////////////////////////////////////////////////////////////
+
+public abstract class T {
+
+    public static T up (T x, T y) { return new Up(x, y); }
+    public static T dn (int n) { return new Dn(n); }
+
+    public abstract int east();
+    public abstract int west();
+
+    private static class Up extends T {
+        private T x;
+        private T y;
+        private int eastResult;
+        private int westResult;
+
+        Up (T x, T y) {
+            this.x = x;
+            this.y = y;
+            this.eastResult = 1 + x.east() + y.east();
+            this.westResult = x.west() - y.west();
+        }
+        public int east () { return eastResult; }
+        public int west () { return westResult; }
+    }
+
+    private static class Dn extends T {
+        private int n;
+        Dn (int n) { this.n = n; }
+        public int east () { return n; }
+        public int west () { return n; }
+    }
+}
+
+////////////////////////////////////////////////////////////////
+//
+// Solution 3: a simplification of Solution 2 via refactoring.
+//
+////////////////////////////////////////////////////////////////
+
+public class T {
+
+    public static T up (T x, T y) { return new T(x, y); }
+    public static T dn (int n) { return new T(n); }
+
+    private int eastResult;
+    private int westResult;
+
+    private T (T x, T y) {
+        this.eastResult = 1 + x.east() + y.east();
+        this.westResult = x.west() - y.west();
+    }
+
+    private T (int n) {
+        this.eastResult = n;
+        this.westResult = n;
+    }
+
+    public int east () { return eastResult; }
+    public int west () { return westResult; }
+}
+
+
+40. [9 points]  Write Java code that implements a mutable
+    ADT named BallotList, whose public operations include
+    those shown below, using the client syntax shown:
+
+    new BallotList()
+        returns a mutable BallotList with no elements
+
+    boolean add(Ballot b)
+        appends b to the end of this list and returns true
+
+    boolean contains(Ballot b)
+        returns true if and only if this BallotList contains b
+
+    java.util.Iterator<Ballot> iterator()
+        returns an Iterator that generates the elements of
+        this BallotList
+
+[64%]
+
+// 34% of the answers received the full 9 points credit.
+//
+// No students did this the easiest way, as in Solution 1.
+// About half of the students came up with solutions similar
+// to Solution 2.  The other half tried to do it from scratch,
+// as Mel would have done it.  Only two of the students who
+// attempted to do it in a Mel-like manner came close to a
+// correct answer.
+//
+// Common mistakes:
+//
+// Failing to provide a Java constructor for the BallotList
+// class that takes no arguments.  (That constructor may not
+// be needed, depending on how you write your code, but many
+// students wrote code that needed the constructor but didn't
+// provide it.)
+//
+// Failing to initialize instance variables.
+//
+// Thinking that the specification called for a static method
+// named BallotList().
+//
+// Failing to notice that the BallotList type is mutable,
+// so the recipe for implementing an immutable ADT from an
+// algebraic specification does not apply.
+
+
+////////////////////////////////////////////////////////////////
+//
+// Solution 1: reuse via inheritance.
+//
+////////////////////////////////////////////////////////////////
+
+import java.util.*;
+
+public class BallotList extends LinkedList<Ballot> { }
+
+
+////////////////////////////////////////////////////////////////
+//
+// Solution 2: reuse via composition and delegation.
+//
+////////////////////////////////////////////////////////////////
+
+import java.util.*;
+
+public class BallotList {
+
+    // contains the ballot objects currently within this list
+
+    List<Ballot> theState;
+
+    // this required constructor initializes the state variable.
+
+    public BallotList () { this.theState = new ArrayList<Ballot>(); }
+
+    // mutates the current state by adding the ballot b
+
+    public boolean add (Ballot b) {
+        theState.add(b);
+        return true;
+    }
+
+    // returns true iff this list contains the ballot b
+
+    public boolean contains (Ballot b) {
+        return theState.contains(b);
+    }
+
+    // returns an iterator for the Ballot objects of this list
+
+    public Iterator<Ballot> iterator () {
+        return theState.iterator();
+    }
+}
+
+
+////////////////////////////////////////////////////////////////
+//
+// Solution 3: implementing it from scratch, as Mel would have
+// done.  That's doing it the hard way, and  is not a good idea,
+// so I won't present code for that solution.
+//
+////////////////////////////////////////////////////////////////
