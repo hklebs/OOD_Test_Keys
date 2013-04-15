@@ -1,6 +1,6 @@
 Review for Object Oriented Design
 =================================
-Collection of information and answer keys to help with studyin for the Object-Oriented Design final for Fall 2012.
+Collection of information and answer keys to help with studying for the Object-Oriented Design final for Fall 2012.
 
 Includes:
 ---------
